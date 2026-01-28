@@ -3,7 +3,6 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import SumaVydavkov from "./SumaVydavkov";
 import ZoznamVydavkov from "./ZoznamVydavkov";
-
 import { GlobalStyles } from "../constant/styles";
 import { VydavkyContext } from "../store/vydavky-context";
 import FiltrovanieVydavkov from "./FiltrovanieVydavkov";
@@ -11,21 +10,19 @@ import FiltrovanieVydavkov from "./FiltrovanieVydavkov";
 export default function ZobrazenieVydavkov({ vydavky, pocetDniVydavkov }) {
   const [search, setSearch] = useState("");
 
-   function inputHandler(text) {
-        console.log("FILTER INPUT: ", text);
-      }
+  function filtrovanieTextInput(inputText){
+    setSearch(inputText);
+  }
+  console.log("vydavky:", vydavky);
 
-  console.log("Vydavky v ZobrazenieVydavkov:", vydavky);
-  const result = vydavky.filter((vydavok) => vydavok.popis.includes("K"));
-  console.log("result:",result);
-
-
-
+  const filtrovresuanieVydavky = vydavky.filter((vyd) => vyd.popis.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
+  console.log("filtrovane:", filtrovresuanieVydavky);
+  
   return (
     <View style={styles.container}>
       <SumaVydavkov vydavky={vydavky} pocetDni={pocetDniVydavkov} />
-      <FiltrovanieVydavkov onIntputChange={inputHandler} />
-      <ZoznamVydavkov vydavky={vydavky} />
+      <FiltrovanieVydavkov filtrovanieTextInput={filtrovanieTextInput} />
+      <ZoznamVydavkov vydavky={filtrovresuanieVydavky} />
     </View>
   );
 }
