@@ -13,6 +13,7 @@ export default function SearchIcon({ filtrovanieTextInput }) {
           onChangeText={filtrovanieTextInput}
         />
       </View>
+      <View style={styles.bridge}></View>
       <View style={styles.iconContainer}>
         <Ionicons name="search" size={20} color="#ffffff" />
       </View>
@@ -25,12 +26,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 16,
+    height: 44,
+    paddingHorizontal: 16,
+    backgroundColor: "243a8f",
   },
   container: {
     flex: 1,
     height: 44,
     paddingHorizontal: 16,
     borderRadius: 999,
+    backgroundColor: "#98a5db",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+  },
+  bridge: {
+    height: 7,
+    width: 4,
     backgroundColor: "#98a5db",
     shadowColor: "#000",
     shadowOpacity: 0.1,
@@ -46,9 +60,8 @@ const styles = StyleSheet.create({
   iconContainer: {
     width: 44,
     height: 44,
-    marginLeft: 8,
     borderRadius: 999,
-    backgroundColor: "#3d79cd",
+    backgroundColor: "#98a5db",
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",

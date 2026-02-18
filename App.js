@@ -13,6 +13,8 @@ import VsetkyVydavky from "./screens/VsetkyVydavky";
 import SpravaVydavku from "./screens/SpravaVydavku";
 import IconTlacitko from "./components/UI/IconTlacitko";
 import VydavkyContextProvider from "./store/vydavky-context";
+import CustomTabBar from "./components/UI/CustomTabBar";
+
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -22,41 +24,27 @@ const BottomTabs = createBottomTabNavigator();
 function PrehladVydavkov() {
   return (
     <BottomTabs.Navigator
-      screenOptions={({ navigation }) => ({
+      screenOptions={{
         headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         headerTintColor: "white",
-        tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
-        tabBarActiveTintColor: GlobalStyles.colors.accent500,
-        // pridanie vpravej hornej časti ikonu:
-        headerRight: ({ tintColor }) => (
-          <IconTlacitko
-            ikona="add-circle"
-            size={32}
-            color={tintColor}
-            onPress={() => {
-              navigation.navigate("Správa Výdavku");
-            }}
-          />
-        ),
-      })}
+        tabBarShowLabel: false,
+      }}
+      tabBar={(props) => <CustomTabBar {...props} />}
     >
       <BottomTabs.Screen
         name="Posledné Výdavky"
         component={PosledneVydavky}
         options={{
-          title: "Posledné výdavky",
-          tabBarLabel: "Posledné",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="hourglass" size={size} color={color} />
           ),
         }}
       />
+
       <BottomTabs.Screen
         name="Všetky Výdavky"
         component={VsetkyVydavky}
         options={{
-          title: "Všetky výdavky",
-          tabBarLabel: "Všetky",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="calendar" size={size} color={color} />
           ),
@@ -65,6 +53,7 @@ function PrehladVydavkov() {
     </BottomTabs.Navigator>
   );
 }
+
 
 export default function App() {
   return (
