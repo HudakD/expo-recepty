@@ -1,4 +1,5 @@
-import { Pressable, View, Text, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+
 import { GlobalStyles } from "../../constant/styles";
 
 export default function Tlacitko({ children, onPress, mode, style }) {
@@ -6,6 +7,7 @@ export default function Tlacitko({ children, onPress, mode, style }) {
     <View style={style}>
       <Pressable
         onPress={onPress}
+        accessibilityRole="button"
         style={({ pressed }) => pressed && styles.pressed}
       >
         <View style={[styles.button, mode === "flat" && styles.flat]}>
@@ -20,9 +22,12 @@ export default function Tlacitko({ children, onPress, mode, style }) {
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 4,
-    padding: 8,
+    minHeight: 46,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     backgroundColor: GlobalStyles.colors.primary500,
+    justifyContent: "center",
   },
   flat: {
     backgroundColor: "transparent",
@@ -30,13 +35,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     textAlign: "center",
+    fontWeight: "800",
   },
   flatText: {
-    color: GlobalStyles.colors.primary200,
+    color: GlobalStyles.colors.primary700,
   },
   pressed: {
     opacity: 0.75,
-    backgroundColor: GlobalStyles.colors.primary100,
-    borderRadius: 4,
   },
 });

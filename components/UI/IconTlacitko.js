@@ -1,11 +1,18 @@
-import { Pressable, View, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function IconTlacitko({ ikona, size, color, onPress }) {
-  //console.log(ikona);
+export default function IconTlacitko({
+  ikona,
+  size,
+  color,
+  onPress,
+  accessibilityLabel,
+}) {
   return (
     <Pressable
       onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
       style={({ pressed }) => pressed && styles.pressed}
     >
       <View style={styles.buttonContainer}>
@@ -14,14 +21,16 @@ export default function IconTlacitko({ ikona, size, color, onPress }) {
     </Pressable>
   );
 }
+
 const styles = StyleSheet.create({
   buttonContainer: {
-    borderRadius: 24,
-    padding: 6,
-    marginHorizontal: 8,
-    marginVertical: 2,
+    width: 42,
+    height: 42,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
   },
   pressed: {
-    opacity: 0.75,
+    opacity: 0.65,
   },
 });
