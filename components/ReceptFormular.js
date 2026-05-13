@@ -10,6 +10,7 @@ export default function ReceptFormular({
   cancelHandler,
   onSubmit,
   defaultValues,
+  isSubmitting,
 }) {
   const [vlozeneHodnoty, setVlozeneHodnoty] = useState({
     nazov: { value: defaultValues ? defaultValues.nazov : "", isValid: true },
@@ -175,8 +176,8 @@ export default function ReceptFormular({
           <Tlacitko mode="flat" style={styles.button} onPress={cancelHandler}>
             Zrusit
           </Tlacitko>
-          <Tlacitko style={styles.button} onPress={submitHandler}>
-            {buttonLabel}
+          <Tlacitko style={styles.button} onPress={submitHandler} disabled={isSubmitting}>
+            {isSubmitting ? "Ukladam..." : buttonLabel}
           </Tlacitko>
         </View>
       </View>

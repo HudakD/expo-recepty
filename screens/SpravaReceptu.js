@@ -1,5 +1,5 @@
-import { useContext, useLayoutEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { useContext, useLayoutEffect, useState } from "react";
+import { Alert, StyleSheet, View } from "react-native";
 
 import ReceptFormular from "../components/ReceptFormular";
 import IconTlacitko from "../components/UI/IconTlacitko";
@@ -8,6 +8,7 @@ import { ReceptyContext } from "../store/recepty-context";
 
 export default function SpravaReceptu({ route, navigation }) {
   const receptyCtx = useContext(ReceptyContext);
+  const [ukladaSa, setUkladaSa] = useState(false);
   const receptId = route.params?.receptId;
   const jeEditacia = !!receptId;
   const vybranyRecept = receptyCtx.recepty.find(
@@ -20,23 +21,37 @@ export default function SpravaReceptu({ route, navigation }) {
     });
   }, [navigation, jeEditacia]);
 
-  function deleteHandler() {
-    receptyCtx.zmazatRecept(receptId);
-    navigation.goBack();
+  async function deleteHandler() {
+    setUkladaSa(true);
+
+    try {
+      await receptyCtx.zmazatRecept(receptId);
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert("Chyba", "Recept sa nepodarilo zmazat.");
+      setUkladaSa(false);
+    }
   }
 
   function cancelHandler() {
     navigation.goBack();
   }
 
-  function confirmHandler(receptData) {
-    if (jeEditacia) {
-      receptyCtx.upravitRecept(receptId, receptData);
-    } else {
-      receptyCtx.pridatRecept(receptData);
-    }
+  async function confirmHandler(receptData) {
+    setUkladaSa(true);
 
-    navigation.goBack();
+    try {
+      if (jeEditacia) {
+        await receptyCtx.upravitRecept(receptId, receptData);
+      } else {
+        await receptyCtx.pridatRecept(receptData);
+      }
+
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert("Chyba", "Recept sa nepodarilo ulozit.");
+      setUkladaSa(false);
+    }
   }
 
   return (
@@ -46,6 +61,7 @@ export default function SpravaReceptu({ route, navigation }) {
         onSubmit={confirmHandler}
         cancelHandler={cancelHandler}
         defaultValues={vybranyRecept}
+        isSubmitting={ukladaSa}
       />
       {jeEditacia && (
         <View style={styles.deleteContainer}>
@@ -54,7 +70,7 @@ export default function SpravaReceptu({ route, navigation }) {
             size={30}
             color={GlobalStyles.colors.error500}
             accessibilityLabel="Zmazat recept"
-            onPress={deleteHandler}
+            onPress={ukladaSa ? undefined : deleteHandler}
           />
         </View>
       )}
